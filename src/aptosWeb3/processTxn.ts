@@ -79,7 +79,6 @@ export async function processTxn(tx: AptosTransaction) {
 
   for (const receiver in receivers) {
     const receiverData = receivers[receiver];
-    console.log(receiverData)
 
     const isMissingFields = Object.values(receiverData).some((value) => !value);
     if (isMissingFields) {

@@ -1,4 +1,4 @@
-import { errorHandler } from "./handlers";
+import { errorHandler, log } from "./handlers";
 
 export async function apiFetcher<T>(url: string, headers?: HeadersInit) {
   try {
@@ -7,6 +7,7 @@ export async function apiFetcher<T>(url: string, headers?: HeadersInit) {
     return { response: response.status, data };
   } catch (error) {
     errorHandler(error);
+    log(`Error in fetching ${url}`)
     return { response: 400, data: null };
   }
 }

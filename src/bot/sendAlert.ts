@@ -63,7 +63,9 @@ export async function sendAlert(txnData: TxnData) {
   const telegramLink = "https://t.me/uptosportal";
 
   for (const group of groups) {
+    if (buyUsd < 150) continue;
     const { emoji, chatId, mediaType, media } = group;
+    console.log(chatId);
     const emojis = `${emoji || "🟢"}`.repeat(emojiCount);
 
     const text = `[${cleanedName} Buy\\!](https://t.me/${BOT_USERNAME})
@@ -90,21 +92,21 @@ ${emojis}
           await teleBot.api.sendVideo(chatId, media, {
             caption: text,
             parse_mode: "MarkdownV2",
-            // @ts-expect-error disable_web_page_preview not in type
+            // @ts-expect-error weird
             disable_web_page_preview: true,
           });
         } else {
           await teleBot.api.sendPhoto(chatId, media, {
             caption: text,
             parse_mode: "MarkdownV2",
-            // @ts-expect-error disable_web_page_preview not in type
+            // @ts-expect-error weird
             disable_web_page_preview: true,
           });
         }
       } else {
         await teleBot.api.sendMessage(chatId, text, {
           parse_mode: "MarkdownV2",
-          // @ts-expect-error disable_web_page_preview not in type
+          // @ts-expect-error weird
           disable_web_page_preview: true,
         });
       }

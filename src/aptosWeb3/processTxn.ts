@@ -27,7 +27,7 @@ export async function processTxn(tx: AptosTransaction) {
       if (changeCreationNum !== creation_number) continue;
 
       const token = getTokenAddress(changeData.type);
-      if (token !== UPTOS_TOKEN) continue depositsLoop
+      if (token !== UPTOS_TOKEN) continue depositsLoop;
 
       const metadata = await getTokenMetadata(token);
       if (!metadata) continue depositsLoop;

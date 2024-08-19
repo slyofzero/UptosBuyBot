@@ -78,6 +78,16 @@ export async function sendAlert(txnData: TxnData) {
       websiteLink,
     } = group;
     const emojis = `${emoji || defaultEmoji}`.repeat(emojiCount);
+    const socials = [
+      ["Website", websiteLink],
+      ["Twitter", twitterLink],
+      ["Telegram", telegramLink],
+    ]
+      .filter(([, link]) => link)
+      .map(([social, link]) => `[${social}](${link})`)
+      .join(" \\| ");
+
+    const socialsText = socials ? `🫧 *Socials* \\- ${socials}\n` : "";
 
     const text = `[${cleanedName} Buy\\!](https://t.me/${BOT_USERNAME})
 
@@ -90,8 +100,7 @@ ${emojis}
 👤 *Buyer*: [${shortendReceiver}](${EXPLORER_URL}/account/${receiver}) \\| [*${version}*](${EXPLORER_URL}/transaction/${version})
 ⬆️ *FDV* \\~ $${cleanUpBotMessage(formatToInternational(fdv))}
 🔘 *Marketcap* \\~  $${cleanUpBotMessage(formatToInternational(mcap))}
-🫧 *Socials* \\- [Website](${websiteLink}) \\| [Twitter](${twitterLink}) \\| [Telegram](${telegramLink})
-
+${socialsText}
 [⚙️ DexTools](${dexToolsLink}) \\| [🦅 DexScreener](${dexscreenLink})
 `;
 

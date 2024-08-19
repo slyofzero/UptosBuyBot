@@ -27,8 +27,6 @@ export async function sendAlert(txnData: TxnData) {
     ({ token: storedToken }) => storedToken === token
   );
 
-  console.log(groups);
-
   if (!groups.length) return false;
 
   const [dexSData, dexTData] = await Promise.all([

@@ -1,6 +1,5 @@
 import { sendAlert } from "@/bot/sendAlert";
 import { AptosTransaction, ReceiversData } from "@/types";
-import { UPTOS_TOKEN } from "@/utils/constants";
 import { log } from "@/utils/handlers";
 import { getTokenAddress, getTokenMetadata } from "@/utils/web3";
 import { prevTxns, setPrevTxn } from "@/vars/prevTxn";
@@ -27,7 +26,6 @@ export async function processTxn(tx: AptosTransaction) {
       if (changeCreationNum !== creation_number) continue;
 
       const token = getTokenAddress(changeData.type);
-      if (token !== UPTOS_TOKEN) continue depositsLoop;
 
       const metadata = await getTokenMetadata(token);
       if (!metadata) continue depositsLoop;

@@ -5,7 +5,12 @@ import {
   generateBuyEmojis,
   hardCleanUpBotMessage,
 } from "@/utils/bot";
-import { EXPLORER_URL, TOKEN_API } from "@/utils/constants";
+import {
+  defaultEmoji,
+  EXPLORER_URL,
+  minBuy,
+  TOKEN_API,
+} from "@/utils/constants";
 import { BOT_USERNAME, DEXTOOLS_API_KEY } from "@/utils/env";
 import {
   formatFloat,
@@ -21,6 +26,8 @@ export async function sendAlert(txnData: TxnData) {
   const groups = projectGroups.filter(
     ({ token: storedToken }) => storedToken === token
   );
+
+  console.log(groups);
 
   if (!groups.length) return false;
 
@@ -57,15 +64,20 @@ export async function sendAlert(txnData: TxnData) {
   // const cmcLink = "https://coinmarketcap.com/currencies/uptos/";
   const dexscreenLink = `https://dexscreener.com/aptos/${token}`;
 
-  const websiteLink = "https://uptos.xyz/";
-  const twitterLink = "https://x.com/uptos_";
-  const telegramLink = "https://t.me/uptosportal";
-
   for (const group of groups) {
-    if (buyUsd < 150) continue;
+    const groupMinBuy = group.minBuy || minBuy;
+    if (buyUsd < groupMinBuy) continue;
 
-    const { emoji, chatId, mediaType, media } = group;
-    const emojis = `${emoji || "🟢"}`.repeat(emojiCount);
+    const {
+      emoji,
+      chatId,
+      mediaType,
+      media,
+      telegramLink,
+      twitterLink,
+      websiteLink,
+    } = group;
+    const emojis = `${emoji || defaultEmoji}`.repeat(emojiCount);
 
     const text = `[${cleanedName} Buy\\!](https://t.me/${BOT_USERNAME})
 

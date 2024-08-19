@@ -1,4 +1,17 @@
 import { cleanUpBotMessage } from "./bot";
+import { urlRegex } from "./constants";
+
+export function isValidUrl(url: string) {
+  return urlRegex.test(url);
+}
+
+export function isValidInviteLink(url: string) {
+  return url.startsWith("https://t.me");
+}
+
+export function isValidTwitterLink(url: string) {
+  return url.startsWith("https://x.com") && isValidUrl(url);
+}
 
 export function formatToInternational(numberToFormat: string | number) {
   numberToFormat = Number(Number(numberToFormat).toFixed(2));

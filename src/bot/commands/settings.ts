@@ -1,12 +1,12 @@
 import { onlyAdmin } from "@/utils/bot";
+import { BOT_USERNAME } from "@/utils/env";
 import { CommandContext, Context, InlineKeyboard } from "grammy";
 
 export async function settings(ctx: CommandContext<Context>) {
-  const { type } = ctx.chat;
+  const { type, id } = ctx.chat;
 
-  let text = "";
   if (type === "private") {
-    text = "Only works in groups or channels";
+    const text = "Only works in groups or channels";
     ctx.reply(text);
     return false;
   }
@@ -14,14 +14,12 @@ export async function settings(ctx: CommandContext<Context>) {
   const isAdmin = await onlyAdmin(ctx);
   if (!isAdmin) return false;
 
-  text =
-    "Customize your bot here. You can customize the message the bot would send to fit your project.";
-  const keyboard = new InlineKeyboard()
-    .text("Set emoji", "setEmoji")
-    .text("Set media", "setMedia")
-    .row()
-    .text("Remove emoji", "removeEmoji")
-    .text("Remove media", "removeMedia");
+  const text =
+    "Customize your bot here. You can customize the message the bot would send to fit your project. Click below to continue in private chat.";
+  const keyboard = new InlineKeyboard().url(
+    "Continue in private chat",
+    `https://t.me/${BOT_USERNAME}?start=settings_${id}`
+  );
 
   ctx.reply(text, { reply_markup: keyboard });
 }

@@ -54,9 +54,8 @@ export async function sendAlert(txnData: TxnData) {
   const emojiCount = generateBuyEmojis(buyUsd);
   const shortendReceiver = cleanUpBotMessage(shortenAddress(receiver));
   const dexToolsLink = `https://www.dextools.io/app/en/aptos/pair-explorer/${token}`;
-  const cmcLink = "https://coinmarketcap.com/currencies/uptos/";
-  const dexscreenLink =
-    "https://dexscreener.com/aptos/liquidswapv0p5-5201?__cf_chl_tk=ZXjWzqAUSx0mruRmpsQ0NmpV.gZuOGAnm7t72RdvUjI-1712224096-0.0.1.1-1663";
+  // const cmcLink = "https://coinmarketcap.com/currencies/uptos/";
+  const dexscreenLink = `https://dexscreener.com/aptos/${token}`;
 
   const websiteLink = "https://uptos.xyz/";
   const twitterLink = "https://x.com/uptos_";
@@ -64,8 +63,8 @@ export async function sendAlert(txnData: TxnData) {
 
   for (const group of groups) {
     if (buyUsd < 150) continue;
+
     const { emoji, chatId, mediaType, media } = group;
-    console.log(chatId);
     const emojis = `${emoji || "🟢"}`.repeat(emojiCount);
 
     const text = `[${cleanedName} Buy\\!](https://t.me/${BOT_USERNAME})
@@ -81,8 +80,7 @@ ${emojis}
 🔘 *Marketcap* \\~  $${cleanUpBotMessage(formatToInternational(mcap))}
 🫧 *Socials* \\- [Website](${websiteLink}) \\| [Twitter](${twitterLink}) \\| [Telegram](${telegramLink})
 
-[⚙️ DexTools](${dexToolsLink}) \\| [📊 CoinMarketCap](${cmcLink})
-[🦅 DexScreener](${dexscreenLink})
+[⚙️ DexTools](${dexToolsLink}) \\| [🦅 DexScreener](${dexscreenLink})
 `;
 
     // --------------------- Sending message ---------------------

@@ -37,8 +37,8 @@ export async function sendAlert(txnData: TxnData) {
     ),
   ]);
 
-  const priceData = dexSData.data;
-  const firstPair = priceData?.pairs.at(0);
+  const priceData = dexSData?.data;
+  const firstPair = priceData?.pairs?.at(0);
   const tokenInfo = dexTData.data?.data;
 
   if (!firstPair || !tokenInfo) return;

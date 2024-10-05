@@ -3,7 +3,8 @@ import { CommandContext, Context, Keyboard } from "grammy";
 export async function setUpBot(ctx: CommandContext<Context>) {
   const { type } = ctx.chat;
 
-  if (type !== "private") return;
+  if (type !== "private")
+    return ctx.reply("This command can only be used in private chat.");
 
   const text = "❔ Select the group to add the buybot in.";
   const keyboard = new Keyboard()

@@ -1,6 +1,10 @@
 import { CommandContext, Context, Keyboard } from "grammy";
 
 export async function setUpBot(ctx: CommandContext<Context>) {
+  const { type } = ctx.chat;
+
+  if (type !== "private") return;
+
   const text = "❔ Select the group to add the buybot in.";
   const keyboard = new Keyboard()
     .requestChat(text, 7, {

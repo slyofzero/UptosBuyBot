@@ -60,7 +60,11 @@ export async function executeStep(
     const stepFunction = steps[step];
 
     if (stepFunction) {
-      stepFunction(ctx);
+      try {
+        stepFunction(ctx);
+      } catch (error) {
+        errorHandler(error);
+      }
     }
   } catch (error) {
     errorHandler(error);

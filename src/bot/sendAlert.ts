@@ -12,11 +12,7 @@ import {
   TOKEN_API,
 } from "@/utils/constants";
 import { BOT_USERNAME, DEXTOOLS_API_KEY } from "@/utils/env";
-import {
-  formatFloat,
-  formatToInternational,
-  shortenAddress,
-} from "@/utils/general";
+import { formatFloat, shortenAddress } from "@/utils/general";
 import { projectGroups } from "@/vars/projectGroups";
 import { teleBot } from "..";
 import { errorHandler } from "@/utils/handlers";
@@ -43,7 +39,6 @@ export async function sendAlert(txnData: TxnData) {
 
   if (!firstPair || !tokenInfo) return;
 
-  const { fdv, mcap } = tokenInfo;
   const { priceUsd } = firstPair;
   const {
     receiver,
@@ -96,8 +91,6 @@ ${emojis}
     )} \\($${cleanUpBotMessage(buyUsd)}\\)
 🔀 *Got*: ${formatFloat(amountReceived)} ${hardCleanUpBotMessage(tokenReceived)}
 👤 *Buyer*: [${shortendReceiver}](${EXPLORER_URL}/account/${receiver}) \\| [*${version}*](${EXPLORER_URL}/transaction/${version})
-⬆️ *FDV* \\~ $${cleanUpBotMessage(formatToInternational(fdv))}
-🔘 *Marketcap* \\~  $${cleanUpBotMessage(formatToInternational(mcap))}
 ${socialsText}
 [⚙️ DexTools](${dexToolsLink}) \\| [🦅 DexScreener](${dexscreenLink})
 `;

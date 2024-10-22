@@ -16,6 +16,7 @@ import { formatFloat, shortenAddress } from "@/utils/general";
 import { projectGroups } from "@/vars/projectGroups";
 import { teleBot } from "..";
 import { errorHandler } from "@/utils/handlers";
+import { InlineKeyboard } from "grammy";
 
 export async function sendAlert(txnData: TxnData) {
   const { token } = txnData;
@@ -93,7 +94,13 @@ ${emojis}
 👤 *Buyer*: [${shortendReceiver}](${EXPLORER_URL}/account/${receiver}) \\| [*${version}*](${EXPLORER_URL}/transaction/${version})
 ${socialsText}
 [⚙️ DexTools](${dexToolsLink}) \\| [🦅 DexScreener](${dexscreenLink})
-`;
+
+[The DOGE of Aptos $UPDOG](https://t.me/UPDOGPORT)`;
+
+    const keyboard = new InlineKeyboard().url(
+      "Buy Uptos Now",
+      "https://t.me/UptosBot"
+    );
 
     // --------------------- Sending message ---------------------
     try {
@@ -104,6 +111,7 @@ ${socialsText}
             parse_mode: "MarkdownV2",
             // @ts-expect-error weird
             disable_web_page_preview: true,
+            reply_markup: keyboard,
           });
         } else {
           await teleBot.api.sendPhoto(chatId, media, {
@@ -111,6 +119,7 @@ ${socialsText}
             parse_mode: "MarkdownV2",
             // @ts-expect-error weird
             disable_web_page_preview: true,
+            reply_markup: keyboard,
           });
         }
       } else {
@@ -118,6 +127,7 @@ ${socialsText}
           parse_mode: "MarkdownV2",
           // @ts-expect-error weird
           disable_web_page_preview: true,
+          reply_markup: keyboard,
         });
       }
     } catch (error) {

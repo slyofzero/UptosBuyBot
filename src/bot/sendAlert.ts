@@ -1,4 +1,4 @@
-import { TokenData, TokenMetrics, TxnData } from "@/types";
+import { TokenData, TxnData } from "@/types";
 import { apiFetcher } from "@/utils/api";
 import {
   cleanUpBotMessage,
@@ -11,8 +11,12 @@ import {
   minBuy,
   TOKEN_API,
 } from "@/utils/constants";
-import { BOT_USERNAME, DEXTOOLS_API_KEY } from "@/utils/env";
-import { formatFloat, shortenAddress } from "@/utils/general";
+import { BOT_USERNAME } from "@/utils/env";
+import {
+  formatFloat,
+  formatToInternational,
+  shortenAddress,
+} from "@/utils/general";
 import { projectGroups } from "@/vars/projectGroups";
 import { teleBot } from "..";
 import { errorHandler } from "@/utils/handlers";
@@ -26,21 +30,14 @@ export async function sendAlert(txnData: TxnData) {
 
   if (!groups.length) return false;
 
-  const [dexSData, dexTData] = await Promise.all([
-    apiFetcher<TokenData>(`${TOKEN_API}/${token}`),
-    apiFetcher<TokenMetrics>(
-      `https://public-api.dextools.io/standard/v2/token/aptos/${token}/info`,
-      { "X-API-KEY": DEXTOOLS_API_KEY || "" }
-    ),
-  ]);
+  const dexSData = await apiFetcher<TokenData>(`${TOKEN_API}/${token}`);
 
   const priceData = dexSData?.data;
   const firstPair = priceData?.pairs?.at(0);
-  const tokenInfo = dexTData.data?.data;
 
-  if (!firstPair || !tokenInfo) return;
+  if (!firstPair) return;
 
-  const { priceUsd } = firstPair;
+  const { priceUsd, fdv } = firstPair;
   const {
     receiver,
     version,
@@ -92,6 +89,7 @@ ${emojis}
     )} \\($${cleanUpBotMessage(buyUsd)}\\)
 🔀 *Got*: ${formatFloat(amountReceived)} ${hardCleanUpBotMessage(tokenReceived)}
 👤 *Buyer*: [${shortendReceiver}](${EXPLORER_URL}/account/${receiver}) \\| [*${version}*](${EXPLORER_URL}/transaction/${version})
+🔘 *Marketcap* \\~  $${cleanUpBotMessage(formatToInternational(fdv || 0))}
 ${socialsText}
 [⚙️ DexTools](${dexToolsLink}) \\| [🦅 DexScreener](${dexscreenLink})
 

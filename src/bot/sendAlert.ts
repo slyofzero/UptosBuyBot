@@ -1,6 +1,7 @@
 import { TokenData, TxnData } from "@/types";
 import { apiFetcher } from "@/utils/api";
 import {
+  botRemovedError,
   cleanUpBotMessage,
   generateBuyEmojis,
   hardCleanUpBotMessage,
@@ -130,6 +131,7 @@ ${socialsText}
       }
     } catch (error) {
       errorHandler(error);
+      botRemovedError(error, group.chatId);
     }
   }
 }

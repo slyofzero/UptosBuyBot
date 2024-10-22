@@ -49,7 +49,10 @@ export function generateBuyEmojis(buy: number) {
   return emojiCount;
 }
 
+import { removeDocumentById } from "@/firebase";
+import { projectGroups, syncProjectGroups } from "@/vars/projectGroups";
 import { Context } from "grammy";
+import { errorHandler, log } from "./handlers";
 
 export async function onlyAdmin(ctx: Context) {
   if (!ctx.chat) {
@@ -74,4 +77,27 @@ export async function onlyAdmin(ctx: Context) {
   }
   // Not an admin
   return false;
+}
+
+export function botRemovedError(e: any, chatId: number) {
+  const err = e as Error;
+
+  if (
+    err.message.includes("chat not found") ||
+    err.message.includes("kicked") ||
+    err.message.includes("chat was upgraded") ||
+    err.message.includes("not enough rights") ||
+    err.message.includes("is not a member")
+  ) {
+    const projectGroup = projectGroups.find(
+      ({ chatId: storedChatId }) => storedChatId === chatId
+    );
+    removeDocumentById({
+      collectionName: "project_groups",
+      id: projectGroup?.id || "",
+    }).then(() => syncProjectGroups());
+  } else {
+    log(err.message);
+  }
+  errorHandler(e);
 }

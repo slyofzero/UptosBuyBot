@@ -97,7 +97,7 @@ ${socialsText}
 [The DOGE of Aptos $UPDOG](https://t.me/UPDOGPORT)`;
 
     const keyboard = new InlineKeyboard().url(
-      "Buy Uptos Now",
+      "Buy with our TG Bot now",
       "https://t.me/UptosBot"
     );
 

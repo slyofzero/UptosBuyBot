@@ -94,7 +94,7 @@ ${emojis}
 ${socialsText}
 [⚙️ DexTools](${dexToolsLink}) \\| [🦅 DexScreener](${dexscreenLink})
 
-[The DOGE of Aptos $UPDOG](https://t.me/UPDOGPORT)`;
+[Launch your meme on Uptos Pump now](https://pump.uptos.xyz/)`;
 
     const keyboard = new InlineKeyboard().url(
       "Buy with our TG Bot now",
